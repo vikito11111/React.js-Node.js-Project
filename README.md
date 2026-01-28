@@ -43,9 +43,3 @@ A full-stack web application with Node.js backend and React.js frontend.
 **Frontend:**
 - React.js
 - React Scripts
-
-## Next Steps
-
-- Add more API routes in [server/index.js](server/index.js)
-- Build React components in [client/src/](client/src/)
-- Connect frontend to backend API endpoints
