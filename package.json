@@ -1,0 +1,13 @@
+{
+  "name": "fullstack-app",
+  "version": "1.0.0",
+  "description": "A Node.js + React.js web application",
+  "scripts": {
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "dev": "echo Run 'npm run server' in one terminal and 'npm run client' in another"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
