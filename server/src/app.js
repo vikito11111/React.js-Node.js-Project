@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -18,7 +19,16 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-app.use((err, req, res, next) => {
+app.use('/api/auth', authRoutes);
+
+app.use((req, res) => {
+    res.status(404).json({
+        status: 'error',
+        message: 'Route not found'
+    });
+});
+
+app.use((err, req, res) => {
     console.error(err.stack);
 
     res.status(500).json({

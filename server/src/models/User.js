@@ -90,7 +90,7 @@ const userSchema = new mongoose.Schema({
         },
         tier: {
             type: String,
-            enum: ['monthly', 'yearly'],
+            enum: ['monthly', 'yearly', null],
             default: null,
         },
         subscribedAt: {
@@ -113,26 +113,19 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-
-    const salt = await bcrypt.genSalt(10);
-
-    this.password = await bcrypt.hash(this.password, salt);
-
-    next();
-});
-
-userSchema.methods.comparePassword = async function (candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
-};
-
-userSchema.pre('save', function (next) {
+userSchema.pre('save', async function() {
+    if (this.isModified('password')) {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    }
+    
     if (!this.profile.displayName) {
         this.profile.displayName = this.username;
     }
-
-    next();
 });
+
+userSchema.methods.comparePassword = async function(candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+};
 
 module.exports = mongoose.model('User', userSchema);
