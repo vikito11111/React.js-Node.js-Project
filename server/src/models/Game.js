@@ -96,15 +96,13 @@ const gameSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-gameSchema.pre('save', function(next) {
+gameSchema.pre('save', function() {
     if (this.isModified('title')) {
         this.slug = this.title
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/(^-|-$)/g, '');
     }
-
-    next();
 });
 
 module.exports = mongoose.model('Game', gameSchema);
